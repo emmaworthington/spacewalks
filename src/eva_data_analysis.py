@@ -82,9 +82,9 @@ if __name__ == "__main__":
 
     print('-- START --')
     # https://data.nasa.gov/resource/eva.json (with modifications)
-    input_file = open('eva-data.json', 'r')
-    output_file = open('eva-data.csv', 'w')
-    graph_file = './cumulative_eva_graph.png'
+    input_file = open('data/eva-data.json', 'r')
+    output_file = open('output/eva-data.csv', 'w')
+    graph_file = 'figures/cumulative_eva_graph.png'
 
     eva_df = read_json_to_dataframe(input_file)
 
