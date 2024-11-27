@@ -1,24 +1,25 @@
+import datetime as dt
+import json
+import matplotlib.pyplot as plt
+import csv
+
 # https://data.nasa.gov/resource/eva.json (with modifications)
-data_f = open('./eva-data.json', 'r')
-data_t = open('./eva-data.csv','w')
-g_file = './cumulative_eva_graph.png'
+input_file = open('./eva-data.json', 'r')
+output_file = open('./eva-data.csv','w')
+graph_file = './cumulative_eva_graph.png'
 
 fieldnames = ("EVA #", "Country", "Crew    ", "Vehicle", "Date", "Duration", "Purpose")
 
 data=[]
-import json
 
 for i in range(374):
-    line=data_f.readline()
+    line = input_file.readline()
     print(line)
     data.append(json.loads(line[1:-1]))
 #data.pop(0)
 ## Comment out this bit if you don't want the spreadsheet
-import csv
 
-w=csv.writer(data_t)
-
-import datetime as dt
+write = csv.writer(output_file)
 
 time = []
 date =[]
@@ -27,15 +28,18 @@ j=0
 for i in data:
     print(data[j])
     # and this bit
-    w.writerow(data[j].values())
+    write.writerow(data[j].values())
+
     if 'duration' in data[j].keys():
-        tt=data[j]['duration']
-        if tt == '':
+        duration = data[j]['duration']
+
+        if duration == '':
             pass
         else:
-            t=dt.datetime.strptime(tt,'%H:%M')
-            ttt = dt.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second).total_seconds()/(60*60)
-            print(t,ttt)
+            hours_mins = dt.datetime.strptime(duration, '%H:%M')
+            ttt = dt.timedelta(hours=hours_mins.hour, minutes=hours_mins.minute, seconds=hours_mins.second).total_seconds()/(60*60)
+
+            print(hours_mins, ttt)
             time.append(ttt)
             if 'date' in data[j].keys():
                 date.append(dt.datetime.strptime(data[j]['date'][0:10], '%Y-%m-%d'))
@@ -45,17 +49,16 @@ for i in data:
                 time.pop(0)
     j+=1
 
-t=[0]
+hours_mins=[0]
+
 for i in time:
-    t.append(t[-1]+i)
+    hours_mins.append(hours_mins[-1]+i)
 
 date,time = zip(*sorted(zip(date, time)))
 
-import matplotlib.pyplot as plt
-
-plt.plot(date,t[1:], 'ko-')
+plt.plot(date,hours_mins[1:], 'ko-')
 plt.xlabel('Year')
 plt.ylabel('Total time spent in space to date (hours)')
 plt.tight_layout()
-plt.savefig(g_file)
+plt.savefig(graph_file)
 plt.show()
