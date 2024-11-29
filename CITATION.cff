@@ -12,4 +12,8 @@ authors:
     family-names: Worthington
     email: emmawheeler@yahoo.com
     affiliation: National Oceanography Centre
+    orcid: 0000-0002-6444-6461
 license: GPL-3.0+
+identifiers:
+  - type: doi
+    value: 10.5072/zenodo.137905
