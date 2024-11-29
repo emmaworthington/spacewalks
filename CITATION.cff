@@ -13,6 +13,8 @@ authors:
     email: emmawheeler@yahoo.com
     affiliation: National Oceanography Centre
     orcid: 0000-0002-6444-6461
+  - given-names: Jakub
+    family-names: Michalski
 license: GPL-3.0+
 identifiers:
   - type: doi
